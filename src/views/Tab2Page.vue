@@ -81,7 +81,7 @@ export default defineComponent({
       } as Contact,
       contacts: [] as Array<Contact>
     }
-},
+}, 
 mounted() {
     this.getContacts();
   },
