@@ -10,6 +10,15 @@ export default {
         return parsedContacts;
     },
 
+    getFavoris(): Array<Contact> {
+        const favoris = localStorage.getItem('favoris') as string;
+        const parsedFavoris = JSON.parse(favoris);
+        if(this.isContactListEmpty(parsedFavoris)){
+            return [];
+        }
+        return parsedFavoris;
+    },
+
     isContactListEmpty(contactList: Array<Contact>): boolean {
         if (contactList) {
             return false;

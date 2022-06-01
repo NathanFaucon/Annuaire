@@ -39,11 +39,11 @@
                 <ion-item>
                   <ion-label>Note : {{contact.note}}</ion-label>
                 </ion-item>
-                  <ion-item>
-                    <ion-button class="button" color="warning">Ajouter aux favoris</ion-button>
-                    <ion-button class="button" color="medium">Editer</ion-button>
-                    <ion-button class="button" color="danger" @click="deleteContact(contact)">Supprimer</ion-button>
-                  </ion-item>
+                <ion-item>
+                  <ion-button class="button" color="warning" @click="addFavoris(index)">Ajouter aux favoris</ion-button>
+                  <ion-button class="button" color="medium">Editer</ion-button>
+                  <ion-button class="button" color="danger" @click="deleteContact(index)">Supprimer</ion-button>
+                </ion-item>
               </ion-list>
 
             </ion-accordion>
@@ -91,9 +91,13 @@ mounted() {
       this.contacts=contactQuery.getContacts();
     },
 
-  deleteContact(contact: Contact) {
-    console.log(contact.prenom);
-    return contactCommand.deleteContact(contact);
+  deleteContact(index: number) {
+    return contactCommand.deleteContact(index);
+  },
+
+  addFavoris(index: number) {
+    const contact: Contact = this.contactForm;
+    return contactCommand.favContact(index);
   }
   }
 });
