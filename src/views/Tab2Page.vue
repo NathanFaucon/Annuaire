@@ -41,7 +41,7 @@
                 </ion-item>
                 <ion-item>
                   <ion-button class="button" color="warning" @click="addFavoris(index)">Ajouter aux favoris</ion-button>
-                  <ion-button class="button" color="medium">Editer</ion-button>
+                  <ion-button class="button" color="medium" @click="openModal(index)">Editer</ion-button>
                   <ion-button class="button" color="danger" @click="deleteContact(index)">Supprimer</ion-button>
                 </ion-item>
               </ion-list>
@@ -61,15 +61,18 @@
 <script lang="ts">
 import { Contact } from '@/domains/contact.interface';
 import { defineComponent } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, modalController  } from '@ionic/vue';
 import contactQuery from "@/query/contact.query";
 import contactCommand from "@/commands/contact.commands";
+import Modal from '@/ressources/modal.vue'
+import Tab3PageVue from './Tab3Page.vue';
 export default defineComponent({
   name: 'Tab2Page',
-  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage },
+  components: { IonHeader, IonToolbar, IonTitle, IonContent, IonPage, IonButton },
   data() {
   return {
     contactForm: {
+      id : '',
       nom: '',
       prenom: '', 
       photo: '', 
@@ -91,14 +94,33 @@ mounted() {
       this.contacts=contactQuery.getContacts();
     },
 
-  deleteContact(index: number) {
-    return contactCommand.deleteContact(index);
-  },
+    getFavoris() {
+      this.contacts=contactQuery.getFavoris();
+    },
 
-  addFavoris(index: number) {
-    const contact: Contact = this.contactForm;
-    return contactCommand.favContact(index);
-  }
+    deleteContact(index: number) {
+      contactCommand.deleteContact(index);
+      this.getContacts(); 
+    },
+
+    addFavoris(index: number) {
+      const contact: Contact = this.contactForm;
+      contactCommand.favContact(index);
+    },
+
+    async openModal(index : number) {
+      const contacts = contactQuery.getContacts();
+      const modal = await modalController.create({
+          component: Modal,
+          cssClass: 'my-custom-class',
+          componentProps: {
+            title: 'Modifier le contact',
+            index : index,
+          }
+        })
+      modal.present();
+      this.getContacts();
+    }
   }
 });
 </script>

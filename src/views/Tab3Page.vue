@@ -41,8 +41,6 @@
                 </ion-item>
                 <ion-item>
                   <ion-button class="button" color="warning" @click="removeFavoris(index)">Enlever des favoris</ion-button>
-                  <ion-button class="button" color="medium">Editer</ion-button>
-                  <ion-button class="button" color="danger" @click="deleteContact(index)">Supprimer</ion-button>
                 </ion-item>
               </ion-list>
 
@@ -70,6 +68,7 @@ export default defineComponent({
   data() {
   return {
     contactForm: {
+      id: '',
       nom: '',
       prenom: '', 
       photo: '', 
@@ -91,13 +90,10 @@ mounted() {
       this.contacts=contactQuery.getFavoris();
     },
 
-  deleteContact(index: number) {
-    return contactCommand.deleteContact(index);
-  },
-
   removeFavoris(index: number) {
     const contact: Contact = this.contactForm;
-    return contactCommand.removeFavoris(index);
+    contactCommand.removeFavoris(index);
+    this.getFavoris();
   }
   }
 });

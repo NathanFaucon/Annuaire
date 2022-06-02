@@ -24,5 +24,17 @@ export default {
             return false;
         }
         return true;
+    },
+
+    getLastId(){
+        const id = localStorage.getItem('lastId');
+        if (id=='') {
+            console.log('null');
+            return '0';
+        }
+        else {
+            console.log('pas null');
+            return id;
+        }
     }
 }

@@ -61,6 +61,7 @@
 <script lang="ts">
 import { Contact } from '@/domains/contact.interface';
 import contactCommand from '@/commands/contact.commands';
+import contactQuery from '@/query/contact.query';
 import { defineComponent } from 'vue';
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonInput } from '@ionic/vue';
 
@@ -71,6 +72,7 @@ export default  defineComponent({
 data() {
   return {
     contactForm: {
+      id : '',
       nom: '',
       prenom: '', 
       photo: '', 
@@ -79,15 +81,21 @@ data() {
       adresse: '',
       email: '', 
       note: ''
-      } as Contact
+      } as Contact,
+      contacts: [] as Array<Contact>
     }
 },
 
 methods: {
   createContact() {
     const contact: Contact = this.contactForm;
-    return contactCommand.createContact(contact);
-  }
+    contactCommand.createContact(contact);
+    this.getContacts();
+  },
+  getContacts() {
+      this.contacts=contactQuery.getContacts();
+    }
+
 }
   
 });
